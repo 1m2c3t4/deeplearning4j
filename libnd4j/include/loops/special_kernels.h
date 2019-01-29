@@ -110,6 +110,8 @@ namespace nd4j {
     template <typename T>
     _CUDA_H void templatedSwapUnsafe(void* theFirstBuffer, Nd4jLong* theFirstShape, void* theSecondBuffer, Nd4jLong* theSecondShape, cudaStream_t* theStream);
 
+    _CUDA_H void launcher(cudaStream_t *stream, double *input, double *output, Nd4jLong length);
+
 }
 
 #endif

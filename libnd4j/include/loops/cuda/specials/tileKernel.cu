@@ -119,4 +119,23 @@ namespace nd4j {
     BUILD_DOUBLE_TEMPLATE(template void tileKernelHH,
                           (void const* inputBuffer, Nd4jLong* inputShape, void* outputBuffer, Nd4jLong* outputShape, Nd4jLong resultLength, Nd4jLong ews, cudaStream_t stream),
                           LIBND4J_TYPES, LIBND4J_TYPES);
+
+
+
+    template <typename Lambda>
+    __global__ void runLambda(double *input, double *output, Nd4jLong length, Lambda lambda) {
+        auto tid = blockIdx.x * blockDim.x + threadIdx.x;
+        float16 f(1.0f);
+        for (Nd4jLong e = tid; e < length; e += gridDim.x * blockDim.x) {
+            output[e] = lambda(input[e]) + (double) f;
+        }
+    }
+
+    void launcher(cudaStream_t *stream, double *input, double *output, Nd4jLong length) {
+        auto f = [] __device__ (double x) -> double {
+            return x + 1.;
+        };
+
+        runLambda<<<128, 128, 128, *stream>>>(input, output, length, f);
+    }
 }
