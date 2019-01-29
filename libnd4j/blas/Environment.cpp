@@ -59,6 +59,7 @@ namespace nd4j {
 #endif
 
 #ifdef __CUDABLAS__
+        /*
         int devCnt = 0;
 	    cudaGetDeviceCount(&devCnt);
 	    auto devProperties = new cudaDeviceProp[devCnt];
@@ -76,6 +77,7 @@ namespace nd4j {
 
 	    cudaSetDevice(0);
 	    delete[] devProperties;
+	    */
 #endif
     }
 

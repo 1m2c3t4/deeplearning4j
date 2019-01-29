@@ -34,7 +34,7 @@ __global__ static void pairwiseSimpleShaped(void* vx, Nd4jLong *xShapeInfo,
 											void *vextraParams) {
 
     printf("pew-pew-pew\n");
-
+/*
 	auto x = reinterpret_cast<X*>(vx);
 	auto y = reinterpret_cast<Y*>(vy);
 	auto z = reinterpret_cast<Z*>(vz);
@@ -85,6 +85,7 @@ __global__ static void pairwiseSimpleShaped(void* vx, Nd4jLong *xShapeInfo,
 			z[zOffset] = OpType::op(x[xOffset], y[yOffset], extraParams);
 		}
 	}
+	*/
 }
 
 namespace functions           {
