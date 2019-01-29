@@ -37,7 +37,7 @@ namespace nd4j {
             return new LegacyScalarOp(this->_opNum, this->_scalar);
         }
 
-        LegacyScalarOp::LegacyScalarOp(int opNum, double scalar)  : LegacyOp::LegacyOp(1, opNum){
+        LegacyScalarOp::LegacyScalarOp(int opNum, NDArray &scalar)  : LegacyOp::LegacyOp(1, opNum){
             _scalar = scalar;
         }
 
@@ -61,7 +61,6 @@ namespace nd4j {
                 auto y = INPUT_VARIABLE(1);
 
                 NativeOpExecutioner::execScalar(block.launchContext(), opNum, x->getBuffer(), x->getShapeInfo(), x->specialBuffer(), x->specialShapeInfo(), z->getBuffer(), z->getShapeInfo(), z->specialBuffer(), z->specialShapeInfo(), y->buffer(), y->shapeInfo(), y->specialBuffer(), y->specialShapeInfo(), block.getTArguments()->data() + offset);
-
             } else if (block.getTArguments()->size() > 0) {
                 auto y = NDArrayFactory::create(x->dataType(), T_ARG(0), block.getVariableSpace()->launchContext());
                 offset++;

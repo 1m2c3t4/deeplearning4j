@@ -476,18 +476,31 @@ template NDArray NDArrayFactory::create(const std::vector<bool> &values, nd4j::g
 
 ////////////////////////////////////////////////////////////////////////
     template <typename T>
-    NDArray* NDArrayFactory::empty_(nd4j::graph::LaunchContext* context) {
-        return empty_(DataTypeUtils::fromT<T>(), context);
+    NDArray* NDArrayFactory::empty_(nd4j::memory::Workspace* workspace) {
+        return empty_(DataTypeUtils::fromT<T>(), workspace);
     }
-    BUILD_SINGLE_TEMPLATE(template NDArray* NDArrayFactory::empty_, (nd4j::graph::LaunchContext* context), LIBND4J_TYPES);
+    BUILD_SINGLE_TEMPLATE(template NDArray* NDArrayFactory::empty_, (nd4j::memory::Workspace* workspace), LIBND4J_TYPES);
 
-    NDArray* NDArrayFactory::empty_(nd4j::DataType dataType, nd4j::graph::LaunchContext* context) {
-        if (context == nullptr)
-            context = nd4j::graph::LaunchContext::defaultContext();
-
-        auto shapeInfo = ShapeBuilders::createScalarShapeInfo(dataType, context->getWorkspace());
+    NDArray* NDArrayFactory::empty_(nd4j::DataType dataType, nd4j::memory::Workspace* workspace) {
+        auto shapeInfo = ShapeBuilders::createScalarShapeInfo(dataType, workspace);
         ArrayOptions::setPropertyBit(shapeInfo, ARRAY_EMPTY);
         auto result = new NDArray(nullptr, shapeInfo, context, false, true);
+
+        return result;
+    }
+
+////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    NDArray NDArrayFactory::empty(nd4j::memory::Workspace* workspace) {
+        return empty(DataTypeUtils::fromT<T>(), workspace);
+    }
+    BUILD_SINGLE_TEMPLATE(template NDArray NDArrayFactory::empty, (nd4j::memory::Workspace* workspace), LIBND4J_TYPES);
+
+    NDArray NDArrayFactory::empty(nd4j::DataType dataType, nd4j::memory::Workspace* workspace) {
+        auto shapeInfo = ShapeBuilders::createScalarShapeInfo(dataType, workspace);
+        ArrayOptions::setPropertyBit(shapeInfo, ARRAY_EMPTY);
+        NDArray result(nullptr, shapeInfo, workspace);
+        result.triggerAllocationFlag(false, true);
 
         return result;
     }
