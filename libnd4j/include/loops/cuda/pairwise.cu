@@ -32,7 +32,9 @@ __global__ static void pairwiseSimpleShaped(void* vx, Nd4jLong *xShapeInfo,
 											void *vy, Nd4jLong *yShapeInfo, 
 											void *vz, Nd4jLong *zShapeInfo, 
 											void *vextraParams) {
-	
+
+    printf("pew-pew-pew\n");
+
 	auto x = reinterpret_cast<X*>(vx);
 	auto y = reinterpret_cast<Y*>(vy);
 	auto z = reinterpret_cast<Z*>(vz);
