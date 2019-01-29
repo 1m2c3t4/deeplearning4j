@@ -308,6 +308,15 @@ NDArray::NDArray(void *buffer, void* bufferD, Nd4jLong *shapeInfo, graph::Launch
         return vector;
     }
 
+    std::vector<int64_t> NDArray::getShapeAsFlatVector() {
+        std::vector<int64_t> vector(this->rankOf());
+
+        for (int e = 0; e < this->rankOf(); e++)
+            vector[e] = this->sizeAt(e);
+
+        return vector;
+    }
+
 ////////////////////////////////////////////////////////////////////////
 std::vector<int64_t> NDArray::getShapeInfoAsFlatVector() {
     int magicNumber = shape::shapeInfoLength(this->rankOf());

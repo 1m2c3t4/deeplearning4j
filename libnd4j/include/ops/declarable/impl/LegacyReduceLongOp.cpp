@@ -120,7 +120,7 @@ namespace nd4j {
 
                     auto z = OUTPUT_VARIABLE(0);
 
-                    NativeOpExcutioner::execReduceLong(opNum, x->getBuffer(), x->getShapeInfo(), block.getTArguments()->data(), z->getBuffer(), z->getShapeInfo(), axis.data(), (int) axis.size(), tad.tadOnlyShapeInfo, tad.tadOffsets);
+                    NativeOpExecutioner::execReduceLong(block.launchContext(), opNum, x->getBuffer(), x->getShapeInfo(), x->specialBuffer(), x->specialShapeInfo(), block.getTArguments()->data(), z->getBuffer(), z->getShapeInfo(), z->specialBuffer(), z->specialShapeInfo(), axis.data(), (int) axis.size(), tad.tadOnlyShapeInfo, tad.tadOffsets);
                 }
             }
 
@@ -147,7 +147,7 @@ namespace nd4j {
                 allAxes = true;
 
             // in this case we're building proper shape for reduction
-            auto array = new NDArray(nullptr, inShape, block.getVariableSpace()->launchContext());
+            auto array = new NDArray(nullptr, inShape, block.launchContext());
             array->triggerAllocationFlag(false, false);
             newShape = ShapeUtils::evalReduceShapeInfo(shape::order(inShape), axis, *array, keepDims, !newFormat, block.workspace());
             ArrayOptions::setDataType(newShape, DataType::INT64);

@@ -62,14 +62,12 @@ namespace nd4j {
 
                 NativeOpExecutioner::execScalar(block.launchContext(), opNum, x->getBuffer(), x->getShapeInfo(), x->specialBuffer(), x->specialShapeInfo(), z->getBuffer(), z->getShapeInfo(), z->specialBuffer(), z->specialShapeInfo(), y->buffer(), y->shapeInfo(), y->specialBuffer(), y->specialShapeInfo(), block.getTArguments()->data() + offset);
             } else if (block.getTArguments()->size() > 0) {
-                auto y = NDArrayFactory::create(x->dataType(), T_ARG(0), block.getVariableSpace()->launchContext());
+                auto y = NDArrayFactory::create(x->dataType(), T_ARG(0), block.launchContext());
                 offset++;
 
                 NativeOpExecutioner::execScalar(block.launchContext(), opNum, x->getBuffer(), x->getShapeInfo(), x->specialBuffer(), x->specialShapeInfo(), z->getBuffer(), z->getShapeInfo(), z->specialBuffer(), z->specialShapeInfo(), y.buffer(), y.shapeInfo(), y.specialBuffer(), y.specialShapeInfo(), block.getTArguments()->data() + offset);
             } else {
-                auto y = NDArrayFactory::create(x->dataType(), _scalar, block.getVariableSpace()->launchContext());
-
-                NativeOpExecutioner::execScalar(block.launchContext(), opNum, x->getBuffer(), x->getShapeInfo(), x->specialBuffer(), x->specialShapeInfo(), z->getBuffer(), z->getShapeInfo(), z->specialBuffer(), z->specialShapeInfo(), y.buffer(), y.shapeInfo(), y.specialBuffer(), y.specialShapeInfo(),block.getTArguments()->data() + offset);
+                NativeOpExecutioner::execScalar(block.launchContext(), opNum, x->getBuffer(), x->getShapeInfo(), x->specialBuffer(), x->specialShapeInfo(), z->getBuffer(), z->getShapeInfo(), z->specialBuffer(), z->specialShapeInfo(), _scalar.buffer(), _scalar.shapeInfo(), _scalar.specialBuffer(), _scalar.specialShapeInfo(), block.getTArguments()->data() + offset);
             }
 
             STORE_RESULT(*z);
